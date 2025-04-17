@@ -1,3 +1,8 @@
 .env
 
+app/further_questions.txt
+app/precomputed_results.json
+app/urls.txt
+app/website_summaries.jsonl
+
 venv/
