@@ -59,7 +59,7 @@ def extract_urls_and_further_questions(query):
         for item in urls:
             file.write(item + "\n")
 
-    return urls,further_questions
+    return urls,list(further_questions)
 
 # def extract_urls_and_further_questions(query):
 
@@ -238,6 +238,7 @@ def extract_text_from_url(url,query,llm_model = 'mistralai/Mixtral-8x7B-Instruct
     
     res2 = llm_summarizer(query,body,llm_model,600)
 
+    # print(len(res1+"\n"+res2))
     return url,res1+"\n"+res2 #type: ignore
 
 

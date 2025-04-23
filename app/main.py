@@ -84,24 +84,31 @@ def ask(query,domain):
     
     urls,further_questions = extract_urls_and_further_questions(revised_query)
 
-    return urls,further_questions
+    #TO_DEL
+    import random
+    urls = set(random.sample(list(urls), 8))
+
 
     logger.info(f"url extraction done for query: {query}")
+    
 
     website_data = fetch_all_data(urls, query) #[(url,content),(url,content)]
 
-    logger.info("Website data length:",len(website_data))
+    logger.info("Website data length:",len(urls))
     logger.info(f"Extraction of Data from Websites completed for query: {query}")
+    
 
     refined_data = eliminator(revised_query,website_data)
 
     logger.info(f"Extracted top k data for query {query}")
 
+
     llm = ChatGroq(temperature=0, groq_api_key=groq_api_key, model_name='llama-3.3-70b-versatile') #type: ignore
 
-    response = llm.invoke(final_ans_prompt(revised_query,[data['summary'] for data in refined_data])).content
+    response = llm.invoke(final_ans_prompt(revised_query,[data[1] for data in refined_data])).content
 
-    response += "\nSOURCE URLS:\n"+"\n".join([data['url'] for data in refined_data])
+    response += "\nSOURCE URLS:\n"+"\n".join([data[0] for data in refined_data])
+
 
     return response,further_questions
 
@@ -122,7 +129,6 @@ class AskRequest(BaseModel):
 async def ask_api(req: Dict):
     try:
         response, further_questions = ask(req['query'], req['domain'])
-
 
         return JSONResponse(content={
             "response": response,

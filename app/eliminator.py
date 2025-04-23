@@ -53,8 +53,8 @@ def eliminator(query, website_data, max_size=4, batch_size=7):
                 
                 logger.error(f"Error processing batch: {e}")
 
-    # logger.info(f"*****all_top_k: {all_top_k}******")
+    logger.info(f"*****all_top_k: {all_top_k}******")
 
-    refined_result = [website_data[i-1] for i in all_top_k]
+    refined_result = [website_data[int(i)-1] for i in all_top_k]
     
     return eliminator(query,refined_result, max_size, batch_size)
