@@ -85,8 +85,8 @@ def ask(query,domain):
     urls,further_questions = extract_urls_and_further_questions(revised_query)
 
     #TO_DEL
-    import random
-    urls = set(random.sample(list(urls), 8))
+    # import random
+    # urls = set(random.sample(list(urls), 8))
 
 
     logger.info(f"url extraction done for query: {query}")
